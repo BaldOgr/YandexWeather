@@ -1,15 +1,15 @@
 package com.github.baldogre.yandexweather.model.weather
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class Tzinfo(
-    @Json(name = "name")
+    @SerializedName("name")
     val name: String,
-    @Json(name = "abbr")
+    @SerializedName("abbr")
     val abbr: String,
-    @Json(name = "offset")
+    @SerializedName("offset")
     val offset: Int,
-    @Json(name = "dst")
+    @SerializedName("dst")
     val dst: Boolean
 )

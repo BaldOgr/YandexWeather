@@ -1,17 +1,17 @@
 package com.github.baldogre.yandexweather.model.weather
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(
-    @Json(name = "now")
+    @SerializedName("now")
     val now: Int,
-    @Json(name = "now_dt")
+    @SerializedName("now_dt")
     val nowDt: String,
-    @Json(name = "info")
+    @SerializedName("info")
     val info: Info,
-    @Json(name = "fact")
+    @SerializedName("fact")
     val fact: Fact,
-    @Json(name = "forecasts")
+    @SerializedName("forecasts")
     val forecasts: List<Forecast>
 )

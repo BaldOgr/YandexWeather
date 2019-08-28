@@ -1,33 +1,33 @@
 package com.github.baldogre.yandexweather.model.weather
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class Info(
-    @Json(name = "f")
+    @SerializedName("f")
     val f: Boolean,
-    @Json(name = "n")
+    @SerializedName("n")
     val n: Boolean,
-    @Json(name = "nr")
+    @SerializedName("nr")
     val nr: Boolean,
-    @Json(name = "ns")
+    @SerializedName("ns")
     val ns: Boolean,
-    @Json(name = "nsr")
+    @SerializedName("nsr")
     val nsr: Boolean,
-    @Json(name = "p")
+    @SerializedName("p")
     val p: Boolean,
-    @Json(name = "lat")
+    @SerializedName("lat")
     val lat: Double,
-    @Json(name = "lon")
+    @SerializedName("lon")
     val lon: Double,
-    @Json(name = "tzinfo")
+    @SerializedName("tzinfo")
     val tzinfo: Tzinfo,
-    @Json(name = "def_pressure_mm")
+    @SerializedName("def_pressure_mm")
     val defPressureMm: Int,
-    @Json(name = "def_pressure_pa")
+    @SerializedName("def_pressure_pa")
     val defPressurePa: Int,
-    @Json(name = "_h")
+    @SerializedName("_h")
     val h: Boolean,
-    @Json(name = "url")
+    @SerializedName("url")
     val url: String
 )

@@ -1,11 +1,11 @@
 package com.github.baldogre.yandexweather.main
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.github.baldogre.yandexweather.common.BaseViewModel
 import com.github.baldogre.yandexweather.common.di.WeatherApi
 import com.github.baldogre.yandexweather.model.weather.WeatherResponse
-import com.github.baldogre.yandexweather.model.weather.request.WeatherRequest
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -17,21 +17,21 @@ class MainViewModel : BaseViewModel() {
     val adapter = WeatherAdapter()
 
     private lateinit var subscription: Disposable
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+    private val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
     init {
         loadPosts()
     }
 
     private fun loadPosts() {
-        subscription = api.getWeather(WeatherRequest(43.227144, 76.880252))
+        subscription = api.getWeather()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onRetrievePostListStart() }
             .doOnTerminate { onRetrievePostListFinish() }
             .subscribe(
                 { onRetrievePostListSuccess(it) },
-                { onRetrievePostListError() }
+                { onRetrievePostListError(it) }
             )
     }
 
@@ -51,8 +51,12 @@ class MainViewModel : BaseViewModel() {
 
     }
 
-    private fun onRetrievePostListError() {
+    private fun onRetrievePostListError(it: Throwable) {
+        Log.w("Error!", it)
+    }
 
+    fun getLoadingVisibility(): MutableLiveData<Int> {
+        return loadingVisibility
     }
 
     override fun onCleared() {

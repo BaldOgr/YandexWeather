@@ -1,29 +1,29 @@
 package com.github.baldogre.yandexweather.model.weather
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class Forecast(
-    @Json(name = "date")
+    @SerializedName("date")
     val date: String,
-    @Json(name = "date_ts")
+    @SerializedName("date_ts")
     val dateTs: Int,
-    @Json(name = "week")
+    @SerializedName("week")
     val week: Int,
-    @Json(name = "sunrise")
+    @SerializedName("sunrise")
     val sunrise: String,
-    @Json(name = "sunset")
+    @SerializedName("sunset")
     val sunset: String,
-    @Json(name = "rise_begin")
+    @SerializedName("rise_begin")
     val riseBegin: String,
-    @Json(name = "set_end")
+    @SerializedName("set_end")
     val setEnd: String,
-    @Json(name = "moon_code")
+    @SerializedName("moon_code")
     val moonCode: Int,
-    @Json(name = "moon_text")
+    @SerializedName("moon_text")
     val moonText: String,
-    @Json(name = "parts")
+    @SerializedName("parts")
     val parts: Parts,
-    @Json(name = "hours")
+    @SerializedName("hours")
     val hours: List<Any>
 )

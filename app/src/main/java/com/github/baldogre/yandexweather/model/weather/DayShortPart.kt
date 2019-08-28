@@ -3,11 +3,15 @@ package com.github.baldogre.yandexweather.model.weather
 
 import com.google.gson.annotations.SerializedName
 
-data class Fact(
+data class DayShortPart(
+    @SerializedName("_source")
+    val source: String,
     @SerializedName("temp")
-    val temp: Int,
+    val temp: Double,
+    @SerializedName("temp_min")
+    val tempMin: Double,
     @SerializedName("feels_like")
-    val feelsLike: Int,
+    val feelsLike: Double,
     @SerializedName("icon")
     val icon: String,
     @SerializedName("condition")
@@ -19,25 +23,19 @@ data class Fact(
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("pressure_mm")
-    val pressureMm: Int,
+    val pressureMm: Double,
     @SerializedName("pressure_pa")
-    val pressurePa: Int,
+    val pressurePa: Double,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Double,
     @SerializedName("uv_index")
-    val uvIndex: Int,
+    val uvIndex: Double,
     @SerializedName("soil_temp")
-    val soilTemp: Int,
+    val soilTemp: Double,
     @SerializedName("soil_moisture")
     val soilMoisture: Double,
-    @SerializedName("daytime")
-    val daytime: String,
-    @SerializedName("polar")
-    val polar: Boolean,
-    @SerializedName("season")
-    val season: String,
-    @SerializedName("obs_time")
-    val obsTime: Int,
-    @SerializedName("source")
-    val source: String
+    @SerializedName("prec_mm")
+    val precMm: Double,
+    @SerializedName("prec_prob")
+    val precProb: Double
 )

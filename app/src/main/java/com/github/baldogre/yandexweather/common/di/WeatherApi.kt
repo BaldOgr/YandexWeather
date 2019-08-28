@@ -7,9 +7,13 @@ import retrofit2.http.*
 
 interface WeatherApi {
 
-    @FormUrlEncoded
-    @GET("/forecast")
+    @GET("forecast")
     @Headers("X-Yandex-API-Key:43ec4ceb-8856-4e4c-af8e-f183479476b6")
-    fun getWeather(@Body request: WeatherRequest): Observable<WeatherResponse>
+    fun getWeather(
+        @QueryMap query: Map<String, String> = mapOf(
+            Pair("lat", WeatherRequest.lat.toString()),
+            Pair("lon", WeatherRequest.lon.toString())
+        )
+    ): Observable<WeatherResponse>
 
 }
