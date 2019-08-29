@@ -2,6 +2,9 @@ package com.github.baldogre.yandexweather.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,5 +24,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding.viewModel = viewModel
+
+        val spinnerAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
+        spinnerAdapter.addAll(viewModel.getCities())
+
+        binding.spinner.adapter = spinnerAdapter
+//        binding.spinner.onItemSelectedListener = viewModel.getOnItemSelectedListener()
     }
 }

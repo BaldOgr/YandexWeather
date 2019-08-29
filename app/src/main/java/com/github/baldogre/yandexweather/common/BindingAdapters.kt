@@ -2,7 +2,7 @@ package com.github.baldogre.yandexweather.common
 
 import android.content.ContextWrapper
 import android.view.View
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +20,11 @@ fun setMutableVisibility(view: View,  visibility: MutableLiveData<Int>?) {
     if(parentActivity != null && visibility != null) {
         visibility.observe(parentActivity, Observer { value -> view.visibility = value?:View.VISIBLE})
     }
+}
+
+@BindingAdapter("onItemSelectedListener")
+fun setOnItemSelectedListener(view: Spinner, listener: AdapterView.OnItemSelectedListener) {
+    view.onItemSelectedListener = listener
 }
 
 @BindingAdapter("mutableText")
