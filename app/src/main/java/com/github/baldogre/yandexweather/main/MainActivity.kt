@@ -29,6 +29,6 @@ class MainActivity : AppCompatActivity() {
         spinnerAdapter.addAll(viewModel.getCities())
 
         binding.spinner.adapter = spinnerAdapter
-//        binding.spinner.onItemSelectedListener = viewModel.getOnItemSelectedListener()
+        binding.spinner.setSelection(0)
     }
 }

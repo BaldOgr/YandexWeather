@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <data>
+
         <variable
-                name="viewModel"
-                type="com.github.baldogre.yandexweather.main.WeatherItemViewModel"/>
+            name="viewModel"
+            type="com.github.baldogre.yandexweather.main.WeatherItemViewModel" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/night_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:text="@string/night_weather"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:id="@+id/night_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Night weather:"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/night_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/night_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mutableText="@{viewModel.getNightWeather()}" />
 
         <TextView
-                android:id="@+id/night_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mutableText="@{viewModel.getNightWeather()}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/night_title"/>
-        <TextView
-                android:id="@+id/day_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day weather:"
-                app:layout_constraintTop_toBottomOf="@id/night_title"
-                app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/day_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_weather"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/night_title" />
 
         <TextView
-                android:id="@+id/day_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mutableText="@{viewModel.getDayWeather()}"
-                app:layout_constraintTop_toTopOf="@id/day_title"
-                app:layout_constraintStart_toEndOf="@id/day_title"/>
+            android:id="@+id/day_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/day_title"
+            app:layout_constraintTop_toTopOf="@id/day_title"
+            app:mutableText="@{viewModel.getDayWeather()}" />
 
         <TextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mutableText="@{viewModel.getDay()}"
-                app:layout_constraintTop_toBottomOf="@id/day_title"
-                app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day_title"
+            app:mutableText="@{viewModel.getDay()}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

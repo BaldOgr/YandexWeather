@@ -3,17 +3,16 @@ package com.github.baldogre.yandexweather.main
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SimpleAdapter
 import androidx.lifecycle.MutableLiveData
 import com.github.baldogre.yandexweather.common.BaseViewModel
 import com.github.baldogre.yandexweather.common.di.WeatherApi
 import com.github.baldogre.yandexweather.model.weather.City
 import com.github.baldogre.yandexweather.model.weather.WeatherResponse
-import com.github.baldogre.yandexweather.model.weather.request.WeatherRequest
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.github.baldogre.yandexweather.common.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainViewModel : BaseViewModel() {
@@ -21,7 +20,6 @@ class MainViewModel : BaseViewModel() {
     lateinit var api: WeatherApi
     val adapter = WeatherAdapter()
 
-    private lateinit var subscription: Disposable
     private val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
     init {
@@ -29,39 +27,53 @@ class MainViewModel : BaseViewModel() {
     }
 
     private fun loadPosts(city: String) {
-        subscription = api.getWeather(
+        val subscription = api.getWeather(
             mapOf(
                 Pair("lat", citiesByCoordinates[city]?.lat.toString()),
                 Pair("lon", citiesByCoordinates[city]?.lon.toString())
             )
         )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrievePostListStart() }
-            .doOnTerminate { onRetrievePostListFinish() }
-            .subscribe(
-                { onRetrievePostListSuccess(it) },
-                { onRetrievePostListError(it) }
-            )
+
+        onRetrieveWeatherStart()
+
+        scope.launch {
+            val response = subscription.await()
+            val safeApiResult = safeApiResult(response, "Error")
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    when (safeApiResult) {
+                        is Result.Success -> {
+                            onRetrieveWeatherSuccess(safeApiResult.data)
+                        }
+                        is Result.Error -> {
+                            onRetrieveWeatherError(safeApiResult.exception)
+                            Log.d("MainViewModel", "Exception - ${safeApiResult.exception}")
+                        }
+                    }
+                    onRetrieveWeatherFinish()
+                }
+            }
+
+        }
     }
 
-    private fun onRetrievePostListStart() {
+    private fun onRetrieveWeatherStart() {
         loadingVisibility.value = View.VISIBLE
 
     }
 
-    private fun onRetrievePostListFinish() {
+    private fun onRetrieveWeatherFinish() {
         loadingVisibility.value = View.GONE
 
     }
 
-    private fun onRetrievePostListSuccess(weather: WeatherResponse) {
+    private fun onRetrieveWeatherSuccess(weather: WeatherResponse) {
         adapter.updateWeatherList(weather.forecasts)
         adapter.notifyDataSetChanged()
 
     }
 
-    private fun onRetrievePostListError(it: Throwable) {
+    private fun onRetrieveWeatherError(it: Throwable) {
         Log.w("Error!", it)
     }
 
@@ -71,11 +83,6 @@ class MainViewModel : BaseViewModel() {
 
     fun getCities(): List<String> {
         return citiesByCoordinates.keys.toList()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        subscription.dispose()
     }
 
     fun getOnItemSelectedListener(): AdapterView.OnItemSelectedListener? {

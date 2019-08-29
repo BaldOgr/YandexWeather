@@ -3,6 +3,8 @@ package com.github.baldogre.yandexweather.common.di
 import com.github.baldogre.yandexweather.model.weather.WeatherResponse
 import com.github.baldogre.yandexweather.model.weather.request.WeatherRequest
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.*
 
 interface WeatherApi {
@@ -14,6 +16,6 @@ interface WeatherApi {
             Pair("lat", WeatherRequest.lat.toString()),
             Pair("lon", WeatherRequest.lon.toString())
         )
-    ): Observable<WeatherResponse>
+    ): Deferred<Response<WeatherResponse>>
 
 }

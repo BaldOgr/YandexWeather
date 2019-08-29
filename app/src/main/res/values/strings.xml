@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">YandexWeather</string>
+    <string name="night_weather">Night weather:</string>
+    <string name="day_weather">Day weather:</string>
 </resources>
